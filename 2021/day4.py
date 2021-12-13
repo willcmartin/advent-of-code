@@ -3,11 +3,8 @@ import numpy as np
 def read_file(filename):
     with open(filename) as f:
         inputs = [line.strip() for line in f if line.strip()]
-
     numbers = np.asarray(inputs[0].split(","), dtype=int)
-    # i managed it in one line, but at what cost?
     boards = np.asarray([[num.split() for num in (inputs[i:i+5])] for i in range(1, len(inputs)-1, 5)], dtype=int)
-
     return (numbers, boards)
 
 
@@ -39,7 +36,7 @@ def part2(inputs):
                         b[b == -1] = 0
                         return np.sum(b) * n
                     else:
-                            boards_won.append(i)
+                        boards_won.append(i)
 
 
 if __name__ == "__main__":
