@@ -29,7 +29,29 @@ def part1(inputs):
     return sum([coors_dict[c] > 1 for c in coors_dict])
 
 def part2(inputs):
-    return None
+    # notation could be cleaned up a lot
+    # also very slow
+
+    def at_45(p1, p2):
+        return abs(p1[0]-p2[0]) == abs(p1[1]-p2[1])
+
+    def at_90(p1, p2):
+        return p1[0]==p2[0] or p1[1]==p2[1]
+
+    inputs = [i for i in inputs if (at_90([i[0], i[1]], [i[2], i[3]]) or at_45([i[0], i[1]], [i[2], i[3]]))]
+
+    coors_dict = {}
+    for i in inputs:
+        for x in range(min(i[0], i[2]), max(i[0], i[2])+1):
+            for y in range(min(i[1], i[3]), max(i[1], i[3])+1):
+                if (at_45([i[0], i[1]], [i[2], i[3]]) and at_45([i[0], i[1]], [x,y])) or (at_90([i[0], i[1]], [i[2], i[3]]) and at_90([i[0], i[1]], [x,y])):
+                    coor = str([x,y])
+                    if coor in coors_dict:
+                        coors_dict[coor] += 1
+                    else:
+                        coors_dict[coor] = 1
+
+    return sum([coors_dict[c] > 1 for c in coors_dict])
 
 
 if __name__ == "__main__":
