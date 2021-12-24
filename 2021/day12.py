@@ -37,7 +37,31 @@ def part1(inputs):
     return paths
 
 def part2(inputs):
-    return None
+        adj_list = defaultdict(list)
+        for edge in inputs:
+            adj_list[edge[0]].append(edge[1])
+            adj_list[edge[1]].append(edge[0])
+
+        visited = []
+        paths = 0
+
+        def dfs(node, visited):
+            nonlocal paths
+            visited.append(node)
+            for neighbor in adj_list[node]:
+                visited_sm = [v for v in visited if v.islower()]
+                if visited_sm.count(neighbor) < 2 and neighbor != 'start':
+                    if (sum([visited_sm.count(v) for v in visited_sm]) > (len(visited_sm))) and visited_sm.count(neighbor) == 1:
+                        continue
+                    if neighbor == 'end':
+                        paths += 1
+                    else:
+                        dfs(neighbor, visited)
+                        del visited[-1]
+
+        dfs('start', visited)
+
+        return paths
 
 
 if __name__ == "__main__":
