@@ -12,7 +12,7 @@ def test():
     assert part1(inputs_test) == 17
     assert part2(inputs_test) == None
 
-def part1(inputs):
+def split_inputs(inputs):
     inputs = copy.deepcopy(inputs)
     instructions = []
     for line in inputs:
@@ -22,6 +22,11 @@ def part1(inputs):
 
     del inputs[-len(instructions):]
     inputs = [[int(x), int(y)] for x, y in inputs]
+
+    return inputs, instructions
+
+def part1(inputs):
+    inputs, instructions = split_inputs(inputs)
 
     axis, val = instructions[0]
     for dot in inputs:
@@ -35,15 +40,7 @@ def part1(inputs):
     return len([dot for i, dot in enumerate(inputs) if dot not in inputs[:i]])
 
 def part2(inputs):
-    inputs = copy.deepcopy(inputs)
-    instructions = []
-    for line in inputs:
-        line_str = line[0]
-        if line_str.startswith("fold"):
-            instructions.append(line_str.split()[-1].split("="))
-
-    del inputs[-len(instructions):]
-    inputs = [[int(x), int(y)] for x, y in inputs]
+    inputs, instructions = split_inputs(inputs)
 
     for instruction in instructions:
         axis, val = instruction
